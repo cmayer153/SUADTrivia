@@ -4,6 +4,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
+from openpyxl import load_workbook
 
 import DriveFileObject
 
@@ -19,7 +20,7 @@ class DriveInterface():
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
                 creds = pickle.load(token)
-        
+        # - if not valid, remove token.pickle and authenticate again
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
@@ -49,12 +50,25 @@ class DriveInterface():
     #Download File
     def download_file_with_name(self, file_name):
         request = self.service.files().get_media(fileId=self.get_file_id_with_name(file_name))
-        with open('downloaded_file.txt', 'wb') as fh:
+        with open('downloaded_file.xlsx', 'wb') as fh:
             downloader = MediaIoBaseDownload(fh, request)
             done = False
             while done is False:
                 status, done = downloader.next_chunk()
                 print(f"Download {int(status.progress() * 100)}%.")
+
+    #Parse File
+    def parse_file(self):
+        #for now, default to loading this 'downloaded_file.xlsx', better solution later
+        wb = load_workbook('downloaded_file.xlsx')
+        color_guide = wb.worksheets[0]
+        questions = wb.worksheets[1]
+        #print all entries in color_guide
+        for row in color_guide.iter_rows():
+            for cell in row:
+                print(cell.value + " : " + str(cell.fill.start_color.index))
+
+
 
     def get_file_id_with_name(self, file_name):
         for file in self.files:
