@@ -9,7 +9,7 @@ driveInterface = DriveInterface.DriveInterface()
 
 # Create the main window
 root = tk.Tk()
-root.title("Simple Tkinter GUI")
+root.title("Shut Up and Drink Trivia Helper 1000")
 
 # On listbox click
 def on_click(event):
@@ -17,6 +17,7 @@ def on_click(event):
     index = listbox.curselection()[0]
     selected_file = listbox.get(index)
     driveInterface.download_file_with_name(selected_file)
+    driveInterface.parse_file()
 
     
 # Create a clickable list of files
