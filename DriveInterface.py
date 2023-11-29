@@ -10,7 +10,16 @@ from object_defs import QuestionEntryObject
 from object_defs import DriveFileObject
 from object_defs import CategoryObject
 
-class DriveInterface():
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        #if the class has not been instantiated yet, do so
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        #return the instance of the class
+        return cls._instances[cls]
+
+class DriveInterface(metaclass=Singleton):
     def __init__(self):
         self.service = None
         self.files = []
@@ -66,6 +75,7 @@ class DriveInterface():
         color_guide = wb.worksheets[0]
         questions = wb.worksheets[1]
         categoryDict = {}
+        categoryDict['00000000'] = "Uncategorized"
         #print all entries in color_guide
         for row in color_guide.iter_rows():
             for cell in row:
@@ -74,26 +84,29 @@ class DriveInterface():
 
         #read in questions and create a new QuestionEntryObject for each
         for row in questions.iter_rows():
-           questionEntry = QuestionEntryObject.QuestionEntryObject(row[0].value,    #question
-                                               categoryDict[str(row[0].fill.start_color.index)],    #question_category
-                                               row[1].value,    #question_type
-                                               row[2].value,    #question_points
-                                               row[3].value,    #question_time
-                                               row[4].value,    #media_url
-                                               row[5].value,    #note
-                                               row[6].value,    #link
-                                               row[7].value,    #correct_answer
-                                               row[8].value,    #choice2
-                                               row[9].value,    #choice3
-                                               row[10].value,   #choice4
-                                               row[11].value,   #etc
-                                               row[12].value,   #unused
-                                               row[13].value,   #zone1
-                                               row[14].value,   #zone2
-                                               row[15].value,   #zone3
-                                               row[16].value,   #zone4
-                                               row[17].value)
-
+            try:
+                questionEntry = QuestionEntryObject.QuestionEntryObject(row[0].value,    #question
+                                                    categoryDict[str(row[0].fill.start_color.index)],    #question_category
+                                                    row[1].value,    #question_type
+                                                    row[2].value,    #question_points
+                                                    row[3].value,    #question_time
+                                                    row[4].value,    #media_url
+                                                    row[5].value,    #note
+                                                    row[6].value,    #link
+                                                    row[7].value,    #correct_answer
+                                                    row[8].value,    #choice2
+                                                    row[9].value,    #choice3
+                                                    row[10].value,   #choice4
+                                                    row[11].value,   #etc
+                                                    row[12].value,   #unused
+                                                    row[13].value,   #zone1
+                                                    row[14].value,   #zone2
+                                                    row[15].value,   #zone3
+                                                    row[16].value,   #zone4
+                                                    row[17].value)
+            except:
+                print("Error in parsing question: " + str(row[0].value))
+        
 
 
 
