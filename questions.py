@@ -3,30 +3,13 @@ import pickle
 import os.path
 import tkinter as tk
 
-import DriveFileObject, DriveInterface
+#from object_defs import DriveFileObject
+import DriveInterface
+import TkManager
 
 driveInterface = DriveInterface.DriveInterface()
+tkManager = TkManager.TkManager()
 
-# Create the main window
-root = tk.Tk()
-root.title("Shut Up and Drink Trivia Helper 1000")
-
-# On listbox click
-def on_click(event):
-    # Get the selected line
-    index = listbox.curselection()[0]
-    selected_file = listbox.get(index)
-    driveInterface.download_file_with_name(selected_file)
-    driveInterface.parse_file()
-
-    
-# Create a clickable list of files
-listbox = tk.Listbox(root)
-listbox.pack(pady=20)
-# display the name of the file
-listbox.config(width=0, height=0, font=("Helvetica", 12))
-# Bind the listbox click to a function
-listbox.bind("<<ListboxSelect>>", on_click)
 
 # Load the Excel file
 #all_sheets = pd.read_excel('path_to_your_file.xlsx', sheet_name=None, engine='openpyxl')
@@ -35,14 +18,16 @@ listbox.bind("<<ListboxSelect>>", on_click)
 #The main method
 def main():
     
+    #check token.pickle and delete if necessary
     driveInterface.authenticate()
     files = driveInterface.list_files_with_extension('xlsx')
 
     for file in files:
-        listbox.insert(tk.END, file)
+        tkManager.add_file_to_listbox(file)
 
-    # Start the main loop
-    root.mainloop()
+    # Setup and start the main loop
+    tkManager.setup()
+    tkManager.run()
 
 
 if __name__ == '__main__':
