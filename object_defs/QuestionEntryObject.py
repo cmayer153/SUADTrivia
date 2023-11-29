@@ -1,6 +1,7 @@
-class QuestionEntryObject():
+class QuestionEntryObject:
     def __init__(self,
                  question,
+                 question_category,
                  question_type,
                  question_points,
                  question_time,
@@ -19,6 +20,7 @@ class QuestionEntryObject():
                  zone4,
                  livestream):
         self.question = question
+        self.question_category = question_category
         self.question_type = question_type
         self.question_points = question_points
         self.question_time = question_time
