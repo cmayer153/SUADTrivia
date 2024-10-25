@@ -1,9 +1,6 @@
-const demoSongs = [
-    {
-        title: "Tupelo Honey",
-        artist: "Van Morrison",
-        url: "https://trivia.sfo3.cdn.digitaloceanspaces.com/13%20-%20Tupelo%20Honey.mp3"
-    },
+import SongDetails from "./SongDetails";
+
+const demoSongs : SongDetails[] = [
     {
         title: "Awake",
         artist: "Tycho",
