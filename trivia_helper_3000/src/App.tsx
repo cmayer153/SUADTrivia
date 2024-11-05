@@ -10,7 +10,7 @@ import demoSongs from './demo_songs';
 import PlayHistory from './PlayHistory';
 
 function App() {
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
   const [currentSong, setCurrentSong] = useState<SongDetails>({
       title: "Tupelo Honey",
       artist: "Van Morrison",
