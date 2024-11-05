@@ -22,7 +22,7 @@ function App() {
       const nextSong = (demoSongs.shift());
       if (nextSong) {
           setCurrentSong(nextSong);
-          setHistory([...history, currentSong]);
+          setHistory([currentSong, ...history]);
       }
   }
 
