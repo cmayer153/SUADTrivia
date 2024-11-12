@@ -8,6 +8,7 @@ import './App.css'
 import Playlist from './Playlist';
 import demoSongs from './demo_songs';
 import PlayHistory from './PlayHistory';
+import { HeaderMenu } from './HeaderMenu';
 
 function App() {
   //const [count, setCount] = useState(0);
@@ -30,11 +31,14 @@ function App() {
   return (
     <MantineProvider>
       {
+        <div>
+        <HeaderMenu /> 
         <Grid className="playlist-grid" columns={4} grow={true}>
       <Grid.Col span={'auto'} className="bordered-column"><PlayHistory songs={history}/></Grid.Col>
       <Grid.Col span={2} className="bordered-column"><Player song={currentSong} next={next}/></Grid.Col> 
       <Grid.Col span={'auto'} className="bordered-column"><Playlist songs={demoSongs}/></Grid.Col>
     </Grid>
+    </div>
       }
     </MantineProvider>
 
