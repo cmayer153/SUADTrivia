@@ -4,6 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
+const { url } = require('inspector');
 const app = express();
 const port = 3000;
 //const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
@@ -38,40 +39,43 @@ const upload = multer({
   
   
 
-  app.post('/upload', (req, res) => {
+  app.post('/upload', upload, (req, res) => {
+    const content = req.files;
+    const name = req.body;
+    
+    /*
     upload(req, res, (error) => {
       if (error) {
         console.error(error);
         return res
       }
     });
-    //const content = req.files;
-    const name = req.body;
+    */
+
+    //How to check if multer was successful?
+
     //if (!req.files) {
     //  return res.status(400).send('No file uploaded.');
     //}
 
-    /*
+    
     const Song = mongoose.model('Song', new mongoose.Schema({
-      originalname: String,
-      filename: String,
-      path: String,
-      size: Number,
-      mimetype: String
+      url: String,
+      songTitle: String,
+      artist: String
+
     }));
 
-    const songs = content.map(file => ({
-      originalname: file.originalname,
-      filename: file.filename,
-      path: file.path,
-      size: file.size,
-      mimetype: file.mimetype
+    const newSong = content.map(file => ({
+      url: "https://trivia.sfo3.digitaloceanspaces.com/" + file.originalname,
+      songTitle: name.songTitles,
+      artist: "temp"
     }));
 
-    Song.insertMany(songs)
+    Song.insertMany(newSong)
       .then(() => console.log('Files saved to MongoDB'))
       .catch(err => console.log(err));
-      */
+      
     //res.status(200).send('File uploaded successfully.');
 
   });
