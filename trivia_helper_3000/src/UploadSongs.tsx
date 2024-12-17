@@ -8,9 +8,14 @@ interface UploadSongsProps {
 
 const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+    const [songTitle, setSongTitle] = useState<string>('');
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedFiles(event.target.files);
+    };
+
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSongTitle(event.target.value);
     };
 
     const handleUpload = () => {
@@ -20,6 +25,7 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
             const formData = new FormData();
             Array.from(selectedFiles).forEach(file => {
                 formData.append('songs', file);
+                formData.append('songTitles', songTitle);
             });
 
 
@@ -48,6 +54,7 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
             <div className="modal-content">
                 <h2>Upload Songs</h2>
                 <input type="file" multiple onChange={handleFileChange} />
+                <input type="text" placeholder="Song title" value={songTitle} onChange={handleTitleChange} />
                 <button onClick={handleUpload}>Upload</button>
                 <button onClick={onClose}>Cancel</button>
             </div>
