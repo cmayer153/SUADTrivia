@@ -48,7 +48,7 @@ export default tseslint.config({
   },
 })
 ```
-My Section
+----- My Section -----
 node server.cjs to start the backend
 npm run dev for vite dev server
 

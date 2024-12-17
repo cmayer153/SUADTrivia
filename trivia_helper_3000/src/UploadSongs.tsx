@@ -17,6 +17,28 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
         if (selectedFiles) {
             // Perform upload logic here
             console.log('Uploading files:', selectedFiles);
+            const formData = new FormData();
+            Array.from(selectedFiles).forEach(file => {
+                formData.append('songs', file);
+            });
+
+
+            // Log FormData entries for debugging
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}:`, value);
+            }
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData, 
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Upload successful:', data);
+                })
+                .catch(error => {
+                    console.error('Error uploading files:', error);
+                });
         }
         onClose();
     };
