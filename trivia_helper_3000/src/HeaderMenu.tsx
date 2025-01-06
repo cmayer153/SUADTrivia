@@ -5,12 +5,14 @@ import { IconChevronDown } from '@tabler/icons-react';
 //import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './HeaderMenu.module.css';
 import UploadSongs from './UploadSongs';
+import LoadPlaylist from './LoadPlaylist';
 
 
 
 export function HeaderMenu() {
   const [opened, { toggle }] = useDisclosure(false);
   const [uploadSongsModalOpened, { open: openUploadSongsModal, close: closeUploadSongsModal }] = useDisclosure(false);
+  const [loadPlaylistModalOpened, { open: openLoadPlaylistModal, close: closeLoadPlaylistModal }] = useDisclosure(false);
 
   const links = [
     { link: '/about', label: 'Features' },
@@ -80,6 +82,21 @@ export function HeaderMenu() {
     </div>
   )
 
+  const loadPlaylistModalBody = (
+    <div className="loadPlaylistModalBody">
+      <LoadPlaylist onClose = {closeLoadPlaylistModal}></LoadPlaylist>
+    </div>
+  )
+
+  /*
+  const loadPlaylistModalBody = (
+    <div className="loadPlaylistModalBody">
+      <UploadSongs onClose = {closeUploadSongsModal}></UploadSongs>
+    </div>
+  )
+    */
+    
+
   return (
     <>
     <header className={classes.header}>
@@ -92,10 +109,14 @@ export function HeaderMenu() {
         </div>
       </Container>
       <Button onClick={openUploadSongsModal}>Upload Songs</Button>
+      <Button onClick={openLoadPlaylistModal}>Load Playlist</Button>
     </header>
     <Modal opened={uploadSongsModalOpened} onClose={closeUploadSongsModal} title="Menu" size="md" >
       {uploadModalBody}
-      </Modal>
+    </Modal>
+    <Modal opened={loadPlaylistModalOpened} onClose={closeLoadPlaylistModal} title="Menu" size="md" >
+      {loadPlaylistModalBody}
+    </Modal>
     </>
   );
 }
