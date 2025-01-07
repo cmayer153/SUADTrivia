@@ -2,109 +2,36 @@ import { Menu, Group, Center, Burger, Container } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
-//import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './HeaderMenu.module.css';
 import UploadSongs from './UploadSongs';
 import LoadPlaylist from './LoadPlaylist';
 
 
 
-export function HeaderMenu() {
+export function HeaderMenu(props) {
   const [opened, { toggle }] = useDisclosure(false);
   const [uploadSongsModalOpened, { open: openUploadSongsModal, close: closeUploadSongsModal }] = useDisclosure(false);
   const [loadPlaylistModalOpened, { open: openLoadPlaylistModal, close: closeLoadPlaylistModal }] = useDisclosure(false);
 
-  const links = [
-    { link: '/about', label: 'Features' },
-    {
-      link: '#1',
-      label: 'Actions',
-      links: [
-        { link: '#', label: 'Upload Songs', onClick: () => openUploadSongsModal },
-        { link: '/resources', label: 'Resources' },
-        { link: '/community', label: 'Community' },
-        { link: '/blog', label: 'Blog' },
-      ],
-    },
-    { link: '/about', label: 'About' },
-    { link: '/pricing', label: 'Pricing' },
-    {
-      link: '#2',
-      label: 'Support',
-      links: [
-        { link: '/faq', label: 'FAQ' },
-        { link: '/demo', label: 'Book a demo' },
-        { link: '/forums', label: 'Forums' },
-      ],
-    },
-  ];
 
-  const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
-    ));
-
-    if (menuItems) {
-      return (
-        <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
-          <Menu.Target>
-            <a
-              href={link.link}
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
-              <Center>
-                <span className={classes.linkLabel}>{link.label}</span>
-                <IconChevronDown size="0.9rem" stroke={1.5} />
-              </Center>
-            </a>
-          </Menu.Target>
-          <Menu.Dropdown>{menuItems}</Menu.Dropdown>
-        </Menu>
-      );
-    }
-
-    return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
-        {link.label}
-      </a>
-    );
-  });
 
   const uploadModalBody = (
-    <div className="uplloadModalBody">
+    <div className="uploadModalBody">
       <UploadSongs onClose = {closeUploadSongsModal}></UploadSongs>
     </div>
   )
 
   const loadPlaylistModalBody = (
     <div className="loadPlaylistModalBody">
-      <LoadPlaylist onClose = {closeLoadPlaylistModal}></LoadPlaylist>
+      <LoadPlaylist onClose = {closeLoadPlaylistModal} setPlaylist = {props.setPlaylist}></LoadPlaylist>
     </div>
   )
-
-  /*
-  const loadPlaylistModalBody = (
-    <div className="loadPlaylistModalBody">
-      <UploadSongs onClose = {closeUploadSongsModal}></UploadSongs>
-    </div>
-  )
-    */
-    
 
   return (
     <>
     <header className={classes.header}>
       <Container size="md">
         <div className={classes.inner}>
-          <Group gap={5} visibleFrom="sm">
-            {items}
-          </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
         </div>
       </Container>

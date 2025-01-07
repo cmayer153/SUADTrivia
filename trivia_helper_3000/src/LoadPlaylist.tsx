@@ -4,9 +4,10 @@ import { Box, List } from '@mantine/core';
 
 interface LoadPlaylistProps {
     onClose: () => void;
+    setPlaylist: (playlist: string) => void;
 }
 
-const LoadPlaylist: React.FC<LoadPlaylistProps> = ({ onClose }) => {
+const LoadPlaylist: React.FC<LoadPlaylistProps> = ({ onClose, setPlaylist }) => {
 
     const [playlists, setPlaylists] = useState<string[]>([]);
     const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
@@ -32,7 +33,7 @@ const LoadPlaylist: React.FC<LoadPlaylistProps> = ({ onClose }) => {
         <Box className="modal">
             <div className="modal-content">
                 <h2>Select a Playlist</h2>
-                <button style={{ color: 'white' }}>{selectedPlaylist}</button>
+                <button style={{ color: 'white' }} onClick={() => setPlaylist(selectedPlaylist ? selectedPlaylist : "DemoPlaylist")}>{selectedPlaylist}</button>
                 <List>
                     {playlists.map((playlist, index) => (
                         <List.Item key={index} onClick={() => handlePlaylistClick(playlist)}>

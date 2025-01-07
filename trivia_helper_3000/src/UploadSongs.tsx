@@ -34,7 +34,7 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
                 console.log(`${key}:`, value);
             }
 
-            fetch('/upload', {
+            fetch('http://localhost:3000/upload', {
                 method: 'POST',
                 body: formData, 
             })

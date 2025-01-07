@@ -114,6 +114,18 @@ app.get('/playlists', (req, res) => {
  
 });
 
+app.get('/playlists/:playlist', (req, res) => {
+  const playlist = req.params.playlist;
+  Song.find({ playlist: playlist })
+    .then(songs => {
+      res.status(200).json(songs);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: 'Error fetching songs for playlist.' });
+    });
+});
+
 app.get('/songs', (req, res) => {
   Song.find({}).then((songs) => {
     res.status(200).json(songs);
