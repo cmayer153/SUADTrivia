@@ -9,13 +9,15 @@ const app = express();
 const cors = require('cors');
 const port = 3000;
 const Song = require('./SongsModel.cjs');
-//const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
-const mongoURI = 'mongodb://localhost:27017/suad_test_00';
+const authOptions = require('./creds.cjs');
+const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
+//const mongoURI = 'mongodb://localhost:27017/suad_test_00';
 //const upload = multer({ dest: 'upload/' });
 
 //dotenv for environment variables
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+mongoose.connect(mongoURI, authOptions)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
