@@ -1,5 +1,5 @@
 export default interface SongDetails {
     url: string;
-    title: string;
+    songTitle: string;
     artist: string;
 }
