@@ -66,7 +66,7 @@ const upload = multer({
         url: "https://trivia.sfo3.digitaloceanspaces.com/" + encodeURIComponent(file.originalname),
         songTitle: parsed.songTitle,
         artist: parsed.artist,
-        playlist: playlist.playlist || 'Unknown Playlist'
+        playlist: playlist.playlist[0] || 'Unknown Playlist'
       };
     });
     
