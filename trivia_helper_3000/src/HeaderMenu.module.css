@@ -27,3 +27,12 @@
   .linkLabel {
     margin-right: rem(5px);
   }
+
+  .designerImage {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: rem(140px);
+    height: rem(140px);
+    border-radius: 50%;
+  }
