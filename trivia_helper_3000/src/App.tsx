@@ -33,8 +33,9 @@ function App() {
     fetch('http://localhost:3000/playlists/' + playlistName)
     .then(response => response.json())
     .then(data => {
+      setCurrentSong(data.shift());
       setPlaylist(data);
-      next();
+      //next();
     })
     .catch(error => {
       console.error('Error fetching song list:', error);

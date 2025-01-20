@@ -4,6 +4,7 @@ import { Modal, Button } from '@mantine/core';
 import classes from './HeaderMenu.module.css';
 import UploadSongs from './UploadSongs';
 import LoadPlaylist from './LoadPlaylist';
+import logo from "./assets/Designer.jpeg";
 
 
 interface Props {
@@ -32,11 +33,8 @@ export function HeaderMenu(props: Props) {
   return (
     <>
     <header className={classes.header}>
-      <Container size="md">
-        <div className={classes.inner}>
-          <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
-        </div>
-      </Container>
+      
+      <img src={logo} alt="Designer" className={classes.designerImage} />
       <Button onClick={openUploadSongsModal}>Upload Songs</Button>
       <Button onClick={openLoadPlaylistModal}>Load Playlist</Button>
     </header>
