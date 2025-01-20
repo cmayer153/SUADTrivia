@@ -1,4 +1,3 @@
-import { Burger, Container } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import classes from './HeaderMenu.module.css';
@@ -12,7 +11,7 @@ interface Props {
 }
 
 export function HeaderMenu(props: Props) {
-  const [opened, { toggle }] = useDisclosure(false);
+  //const [opened, { toggle }] = useDisclosure(false);
   const [uploadSongsModalOpened, { open: openUploadSongsModal, close: closeUploadSongsModal }] = useDisclosure(false);
   const [loadPlaylistModalOpened, { open: openLoadPlaylistModal, close: closeLoadPlaylistModal }] = useDisclosure(false);
 
