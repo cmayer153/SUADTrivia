@@ -34,13 +34,15 @@ export function HeaderMenu(props: Props) {
     <header className={classes.header}>
       
       <img src={logo} alt="Designer" className={classes.designerImage} />
-      <Button onClick={openUploadSongsModal}>Upload Songs</Button>
-      <Button onClick={openLoadPlaylistModal}>Load Playlist</Button>
+      <div>
+      <Button onClick={openUploadSongsModal} className = {classes.button}>Upload Songs</Button>
+      <Button onClick={openLoadPlaylistModal} className = {classes.button}>Load Playlist</Button>
+      </div>
     </header>
-    <Modal opened={uploadSongsModalOpened} onClose={closeUploadSongsModal} title="Menu" size="md" >
+    <Modal opened={uploadSongsModalOpened} onClose={closeUploadSongsModal} className={classes.modal} size="md" >
       {uploadModalBody}
     </Modal>
-    <Modal opened={loadPlaylistModalOpened} onClose={closeLoadPlaylistModal} title="Menu" size="md" >
+    <Modal opened={loadPlaylistModalOpened} onClose={closeLoadPlaylistModal} className={classes.modal} size="md" >
       {loadPlaylistModalBody}
     </Modal>
     </>
