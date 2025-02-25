@@ -51,12 +51,28 @@ const upload = multer({
     const playlist = req.body;
 
     const parseFileName = (fileName) => {
+      /*  Old Parsing, not in line with new file naming convention
       const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
       const parts = fileNameWithoutExtension.split('__');
       return {
         songTitle: parts[0],
         artist: parts[1] || 'Unknown Artist'
       };
+      */
+
+      const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+      let tempSplit = fileNameWithoutExtension.split('_');
+      const playlist = tempSplit[0];
+      tempSplit = tempSplit[1].split('-');
+      const trackNumber = tempSplit[0];
+      const songTitle = tempSplit[1];
+
+      return {
+        playlist: playlist,
+        trackNumber: trackNumber,
+        songTitle: songTitle
+      };
+
     };
 
     const newSong = content.map(file => {
@@ -65,8 +81,10 @@ const upload = multer({
       return {
         url: "https://trivia.sfo3.digitaloceanspaces.com/" + encodeURIComponent(file.originalname),
         songTitle: parsed.songTitle,
-        artist: parsed.artist,
-        playlist: playlist.playlist[0] || 'Unknown Playlist'
+        //artist: parsed.artist,
+        artist: 'Unknown Artist',
+        //playlist: playlist.playlist[0] || 'Unknown Playlist'
+        playlist: parsed.playlist
       };
     });
     
