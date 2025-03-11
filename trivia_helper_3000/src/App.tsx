@@ -6,6 +6,7 @@ import { MantineProvider } from '@mantine/core';
 import './App.css'
 import { HeaderMenu } from './HeaderMenu';
 import { HostContainer } from './hosting/HostContainer';
+import { AdminContainer } from './admin/AdminContainer';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<HeaderMenu />}/>
+              <Route path="/admin" element={<AdminContainer />}/>
               <Route path="/location/:location" element={<HostContainer />}/>
             </Routes>
                 

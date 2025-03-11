@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Box } from '@mantine/core';
 
-
+/*
 interface UploadSongsProps {
     onClose: () => void;
 }
+*/
 
-const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
+//TODO mantine has an upload component, it might be better
+// than using the stuff i have now
+
+//TODO is void right here?
+const UploadSongs: React.FC<{}> = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [playlist, setPlaylist] = useState<string>('');
 
@@ -46,7 +51,6 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
                     console.error('Error uploading files:', error);
                 });
         }
-        onClose();
     };
 
     return (
@@ -56,7 +60,6 @@ const UploadSongs: React.FC<UploadSongsProps> = ({ onClose }) => {
                 <input type="file" multiple onChange={handleFileChange} />
                 <input type="text" placeholder="Playlist" value={playlist} onChange={handlePlaylistChange} />
                 <button onClick={handleUpload} style={{ color: 'white' }}>Upload</button>
-                <button onClick={onClose} style={{ color: 'white' }}>Cancel</button>
             </div>
         </Box>
     );
