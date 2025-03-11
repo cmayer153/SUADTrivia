@@ -146,6 +146,18 @@ app.get('/playlists/:playlist', (req, res) => {
     });
 });
 
+app.get('/playlistbylocation/:location', (req, res) => {
+  const location = req.params.location;
+  Song.find({ location: location })
+    .then(songs => {
+      res.status(200).json(songs);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: 'Error fetching songs for location.' });
+    });
+});
+
 app.get('/songs', (req, res) => {
   Song.find({}).then((songs) => {
     res.status(200).json(songs);
