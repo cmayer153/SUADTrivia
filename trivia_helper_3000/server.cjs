@@ -158,9 +158,13 @@ app.get('/playlists/:playlist', (req, res) => {
 
 app.get('/playlistbylocation/:location', (req, res) => {
   const location = req.params.location;
-  Song.find({ location: location })
-    .then(songs => {
-      res.status(200).json(songs);
+  Location.find({ locationName: { $regex : new RegExp(location, "i") } })
+    .then(loc => {
+      const playlist = loc[0].nextPlaylistName;
+      Song.find({ playlist: playlist })
+        .then(songs => {
+          res.status(200).json(songs);
+        })
     })
     .catch(err => {
       console.log(err);
