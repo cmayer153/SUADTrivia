@@ -6,4 +6,4 @@ const Schema = mongoose.Schema;
       nextPlaylistName: String
     }));
 
-module.exports = Song;
+module.exports = Location;
