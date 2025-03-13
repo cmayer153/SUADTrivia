@@ -144,6 +144,19 @@ app.get('/playlists', (req, res) => {
  
 });
 
+app.get('/locations', (req, res) => {
+  Location.find({}, {locationName: 1, _id: 0})
+    .then(locations => {
+      locationNames = locations.map(location => location.locationName);
+      res.status(200).json(locationNames);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: 'Error fetching locations.' });
+    });
+}
+);
+
 app.get('/playlists/:playlist', (req, res) => {
   const playlist = req.params.playlist;
   Song.find({ playlist: playlist })
@@ -171,6 +184,19 @@ app.get('/playlistbylocation/:location', (req, res) => {
       res.status(500).json({ message: 'Error fetching songs for location.' });
     });
 });
+
+app.post('/api/set-playlist', (req, res) => {
+  const location = req.body.location;
+  const playlist = req.body.playlist;
+  Location.findOneAndUpdate
+  (
+    { locationName: location },
+    { nextPlaylistName: playlist }
+  )
+  .then(() => res.status(200).send('Playlist set successfully.'))
+  .catch(err => res.status(500).send('Error setting playlist.'));
+}
+);
 
 //is this used?
 app.get('/songs', (req, res) => {

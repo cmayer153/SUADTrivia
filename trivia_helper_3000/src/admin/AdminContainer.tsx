@@ -1,6 +1,7 @@
 import { Tabs } from '@mantine/core';
 import UploadSongs from './UploadSongs';
 import AddLocation from './AddLocation';
+import SetPlaylists from './SetPlaylists';
 
 export function AdminContainer() {
     return (
@@ -18,7 +19,7 @@ export function AdminContainer() {
             </Tabs.List>
 
             <Tabs.Panel value="setPlaylists">
-                <h2>Set Playlists</h2>
+                <SetPlaylists />
             </Tabs.Panel>
             <Tabs.Panel value="uploadSongs">
                 <UploadSongs />

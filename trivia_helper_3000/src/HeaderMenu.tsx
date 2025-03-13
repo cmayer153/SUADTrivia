@@ -1,5 +1,6 @@
 //import { useDisclosure } from '@mantine/hooks';
 import { Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 import classes from './HeaderMenu.module.css';
 
 
@@ -15,7 +16,7 @@ export function HeaderMenu() {
   //const [opened, { toggle }] = useDisclosure(false);
   //const [uploadSongsModalOpened, { open: openUploadSongsModal, close: closeUploadSongsModal }] = useDisclosure(false);
   //const [loadPlaylistModalOpened, { open: openLoadPlaylistModal, close: closeLoadPlaylistModal }] = useDisclosure(false);
-
+  const navigate = useNavigate();
 
   return (
     <>
@@ -23,7 +24,7 @@ export function HeaderMenu() {
 
         <img src={logo} alt="Designer" className={classes.designerImage} />
         <div>
-          <Button className={classes.button}>Upload Songs</Button>
+          <Button onClick={()=>navigate('/admin')} className={classes.button}>Admin</Button>
         </div>
       </header>
 

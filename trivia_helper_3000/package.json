@@ -15,6 +15,7 @@
     "@tabler/icons": "^3.21.0",
     "@tabler/icons-react": "^3.21.0",
     "aws-sdk": "^2.1692.0",
+    "axios": "^1.8.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "mongoose": "^8.7.3",

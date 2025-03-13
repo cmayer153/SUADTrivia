@@ -16,8 +16,8 @@ function App() {
       <MantineProvider>
         {
           <div>
+            <HeaderMenu />
             <Routes>
-              <Route path="/" element={<HeaderMenu />}/>
               <Route path="/admin" element={<AdminContainer />}/>
               <Route path="/location/:location" element={<HostContainer />}/>
             </Routes>
