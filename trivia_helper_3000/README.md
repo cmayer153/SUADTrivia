@@ -52,3 +52,6 @@ export default tseslint.config({
 node server.cjs to start the backend
 npm run dev for vite dev server
 
+
+*NOTES*
+  Do we need to save playlist state in local storage in case of a browser crash or accidental close out?

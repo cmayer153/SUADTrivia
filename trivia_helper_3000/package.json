@@ -15,6 +15,7 @@
     "@tabler/icons": "^3.21.0",
     "@tabler/icons-react": "^3.21.0",
     "aws-sdk": "^2.1692.0",
+    "axios": "^1.8.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "mongoose": "^8.7.3",
@@ -22,7 +23,8 @@
     "multer-s3": "^2.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-player": "^2.16.0"
+    "react-player": "^2.16.0",
+    "react-router-dom": "^7.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
