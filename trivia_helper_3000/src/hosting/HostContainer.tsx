@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import demoSongs from './demo_songs';
 
 export function HostContainer() {
-    let { location } = useParams();
+    let { location, playlistName } = useParams();
     const [currentSong, setCurrentSong] = useState<SongDetails>({
         songTitle: "Tupelo Honey",
         artist: "Van Morrison",
@@ -20,7 +20,7 @@ export function HostContainer() {
 
     useEffect(() => {
         fetchSongsinPlaylist();
-    }, [location]);
+    }, [location, playlistName]);
     
     const next = () => {
         const nextSong = (playlist.shift());
@@ -30,22 +30,30 @@ export function HostContainer() {
         }
     }
 
-    //this will get called when we load a location into the url
-    // I think it will also send a location instead of a playlist name, 
-    //   then the backend will relate the location to the proper playlist
     const fetchSongsinPlaylist = () => {
-        // fetch playlist from backend
-        fetch('http://localhost:3000/playlistbylocation/' + location)
-        .then(response => response.json())
-        .then(data => {
-          setCurrentSong(data.shift());
-          setPlaylist(data);
-          //next();
-        })
-        .catch(error => {
-          console.error('Error fetching song list:', error);
-        });
-        // setPlaylist(playlist)
+        if (!playlistName) {
+          fetch('http://localhost:3000/playlistbylocation/' + location)
+          .then(response => response.json())
+          .then(data => {
+            setCurrentSong(data.shift());
+            setPlaylist(data);
+            //next();
+          })
+          .catch(error => {
+            console.error('Error fetching song list:', error);
+          });
+        } else {
+          fetch('http://localhost:3000/playlists/' + playlistName)
+          .then(response => response.json())
+          .then(data => {
+            setCurrentSong(data.shift());
+            setPlaylist(data);
+            //next();
+          })
+          .catch(error => {
+            console.error('Error fetching song list:', error);
+          });
+        }
       }
 
   return (

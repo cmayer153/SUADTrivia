@@ -4,7 +4,7 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 //import { Grid } from '@mantine/core';
 import './App.css'
-import { HeaderMenu } from './HeaderMenu';
+import { HeaderMenu } from './header/HeaderMenu';
 import { HostContainer } from './hosting/HostContainer';
 import { AdminContainer } from './admin/AdminContainer';
 
@@ -13,6 +13,7 @@ function App() {
 
   return (
     <Router>
+      
       <MantineProvider>
         {
           <div>
@@ -20,6 +21,7 @@ function App() {
             <Routes>
               <Route path="/admin" element={<AdminContainer />}/>
               <Route path="/location/:location" element={<HostContainer />}/>
+              <Route path="/playlist/:playlistName" element={<HostContainer />}/>
             </Routes>
                 
           </div>
