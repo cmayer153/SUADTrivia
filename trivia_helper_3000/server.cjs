@@ -11,12 +11,18 @@ const port = 3000;
 const Song = require('./SongsModel.cjs');
 const Location = require('./LocationsModel.cjs');
 const authOptions = require('./creds.cjs');
-const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
+const dotenv = require('dotenv');
+
+// Load env and fix mongoURI
+require('dotenv').config();
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/suad_test_00';
+
 //const mongoURI = 'mongodb://localhost:27017/suad_test_00';
 //const upload = multer({ dest: 'upload/' });
 
-//dotenv for environment variables
-
+/////////
+//config dotenv??
+/////////
 
 mongoose.connect(mongoURI, authOptions)
   .then(() => console.log('MongoDB connected'))
@@ -56,7 +62,6 @@ const upload = multer({
   
   app.post('/upload', upload, (req, res) => {
     const content = req.files;
-    const playlist = req.body;
 
     const parseFileName = (fileName) => {
       /*  Old Parsing, not in line with new file naming convention
@@ -198,6 +203,22 @@ app.post('/api/set-playlist', (req, res) => {
 }
 );
 
+app.post('/api/register', async (req, res) => {
+  const { username, password } = req.body;
+  // am I double hashing the password?
+  const hashed = await bcrypt.hash(password, 10);
+  try {
+    await User.create({ username, password: hashed});
+    res.status(201).json({ message: 'User created successfully' });
+  } catch (error) {
+    if (error.code === 11000) {
+      res.status(409).json({ message: 'Username already exists' });
+    } else {
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+});
+
 //is this used?
 app.get('/songs', (req, res) => {
   Song.find({}).then((songs) => {
@@ -214,6 +235,38 @@ app.get('/songs', (req, res) => {
     */
 });
 
+// AFTER app.use(cors()) add read-only API routes
+app.get('/api/playlists', async (req, res) => {
+  try {
+    const names = await Song.distinct('playlist');
+    res.json(names.sort());
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to fetch playlists');
+  }
+});
+
+app.get('/api/playlists/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const songs = await Song.find({ playlist: name }).sort({ songTitle: 1 });
+    res.json(songs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to fetch songs');
+  }
+});
+
+app.get('/api/history', async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit || '50', 10), 200);
+    const rows = await Song.find({}).sort({ _id: -1 }).limit(limit);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to fetch history');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
