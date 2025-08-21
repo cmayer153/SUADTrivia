@@ -15,9 +15,10 @@ const dotenv = require('dotenv');
 
 // Load env and fix mongoURI
 require('dotenv').config();
-const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/suad_test_00';
+//const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/suad_test_00';
 
 //const mongoURI = 'mongodb://localhost:27017/suad_test_00';
+const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
 //const upload = multer({ dest: 'upload/' });
 
 /////////
