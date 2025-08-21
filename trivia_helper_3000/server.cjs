@@ -269,6 +269,11 @@ app.get('/api/history', async (req, res) => {
   }
 });
 
+// SPA fallback for non-API routes
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
