@@ -175,6 +175,12 @@ app.get('/playlists/:playlist', (req, res) => {
     });
 });
 
+/*
+app.get('/playlistsbylocation/:location' (req, res) => {
+  const location = req.params.location;
+*/
+
+
 app.get('/playlistbylocation/:location', (req, res) => {
   const location = req.params.location;
   Location.find({ locationName: { $regex : new RegExp(location, "i") } })
@@ -218,22 +224,6 @@ app.post('/api/register', async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
-});
-
-//is this used?
-app.get('/songs', (req, res) => {
-  Song.find({}).then((songs) => {
-    res.status(200).json(songs);
-  });
-  
-  /*
-  , (err, songs) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    res.status(200).json(songs);
-  })
-    */
 });
 
 // AFTER app.use(cors()) add read-only API routes

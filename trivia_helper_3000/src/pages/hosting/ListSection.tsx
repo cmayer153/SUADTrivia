@@ -24,7 +24,7 @@ const ListSection = () => {
 
   return (
     <Paper shadow="sm" p="md" withBorder>
-      <Stack spacing="md">
+      <Stack gap="md">
         <Text weight={500} size="lg">
           List Section
         </Text>
@@ -42,8 +42,8 @@ const ListSection = () => {
         >
           {listItems.map((item) => (
             <Paper key={item.id} shadow="xs" p="sm" withBorder>
-              <Stack spacing="xs">
-                <Group position="apart" align="flex-start">
+              <Stack gap="xs">
+                <Group align="flex-start">
                   <Text weight={500} size="sm">
                     {item.title}
                   </Text>

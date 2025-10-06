@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 import { Stack } from '@mantine/core';
 import Header from './Header';
 import ButtonRow from './ButtonRow';
@@ -6,7 +6,7 @@ import ContentSection from './ContentSection';
 import ListSection from './ListSection';
 
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const MainPage = () => {
   let { location } = useParams();
@@ -29,7 +29,7 @@ const MainPage = () => {
   };
 
   return (
-    <Stack spacing="lg" p="md">
+    <Stack gap="lg" p="md">
       <Header />
       <ButtonRow />
       <ContentSection />
