@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NativeSelect, Button, Container } from '@mantine/core';
 import axios from 'axios';
+import { SERVER_BASE } from '../api/urls';
 
 const SetPlaylists: React.FC = () => {
     const [playlist, setPlaylist] = useState('');
@@ -11,7 +12,7 @@ const SetPlaylists: React.FC = () => {
 
 
     useEffect(() => {
-        axios.get('/playlists')
+        axios.get(SERVER_BASE + '/playlists')
             .then(response => {
                 console.log('Playlists:', response.data);
                 setPlaylistData(response.data);
@@ -19,7 +20,7 @@ const SetPlaylists: React.FC = () => {
             .catch(error => {
                 console.error('Error fetching playlists:', error);
             });
-        axios.get('/locations')
+        axios.get(SERVER_BASE + '/locations')
             .then(response => {
                 console.log('Locations:', response.data);
                 setLocationData(response.data);
@@ -33,7 +34,7 @@ const SetPlaylists: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('/api/set-playlist', { playlist, location });
+            const response = await axios.post(SERVER_BASE + '/api/set-playlist', { playlist, location });
             console.log('Response:', response.data);
         } catch (error) {
             console.error('Error submitting data:', error);

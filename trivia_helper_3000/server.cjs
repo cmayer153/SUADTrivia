@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
@@ -8,33 +7,26 @@ const { url } = require('inspector');
 const app = express();
 const cors = require('cors');
 const port = 3000;
-const Song = require('./SongsModel.cjs');
-const Location = require('./LocationsModel.cjs');
-const authOptions = require('./creds.cjs');
 const dotenv = require('dotenv');
 
-// Load env and fix mongoURI
+const SongModel = require('./SQLite/SongModel.cjs');
+const LocationModel = require('./SQLite/LocationModel.cjs');
+
+const Songs = new SongModel();
+const Locations = new LocationModel();
+
+//TODO still need to configure dotenv
+// Load env
 require('dotenv').config();
-//const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/suad_test_00';
 
-//const mongoURI = 'mongodb://localhost:27017/suad_test_00';
-const mongoURI = 'mongodb://24.199.115.180:27017/testDatabase0';
-//const upload = multer({ dest: 'upload/' });
 
-/////////
-//config dotenv??
-/////////
-
-mongoose.connect(mongoURI, authOptions)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
-  app.use(express.static(path.join(__dirname, 'dist')))
-  app.use(express.json());
+app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.json());
   
   //FOR TESTING
   app.use(cors());
 
+  //TODO how does multer have the credentials to upload to DO?
 // Set S3 endpoint to DigitalOcean Spaces
 const spacesEndpoint = new aws.Endpoint('sfo3.digitaloceanspaces.com');
 const s3 = new aws.S3({
@@ -43,9 +35,16 @@ const s3 = new aws.S3({
 
 app.post('/api/addLocation', (req, res) => {
   const location = req.body;
-  Location.insertMany({locationName: location.location, nextPlaylistName: "demo"})
-  .then(() => res.status(200).send('Location added successfully.'))
-  .catch(err => res.status(500).send('Error adding location.'));
+  Locations.insert({venueName: location.location, 
+    playlist1: "demo",
+    playlist2: "demo",
+    playlist3: "demo",
+    playlist4: "demo",
+    playlist5: "demo",
+    playlist6: "demo"});
+  res.status(200).send('Location added successfully.');
+  //TODO error checking
+  //.catch(err => res.status(500).send('Error adding location.'));
 
 } );
 
@@ -94,7 +93,7 @@ const upload = multer({
 
       return {
         url: "https://trivia.sfo3.digitaloceanspaces.com/" + encodeURIComponent(file.originalname),
-        songTitle: parsed.songTitle,
+        title: parsed.songTitle,
         //artist: parsed.artist,
         artist: 'Unknown Artist',
         //playlist: playlist.playlist[0] || 'Unknown Playlist'
@@ -108,7 +107,7 @@ const upload = multer({
     //  return res.status(400).send('No file uploaded.');
     //}
 
-    Song.insertMany(newSong)
+    Songs.insert(newSong)
       .then(() => console.log('Files saved to MongoDB'))
       .catch(err => console.log(err));
       
@@ -150,6 +149,7 @@ app.get('/playlists', (req, res) => {
  
 });
 
+/*
 app.get('/locations', (req, res) => {
   Location.find({}, {locationName: 1, _id: 0})
     .then(locations => {
@@ -162,6 +162,12 @@ app.get('/locations', (req, res) => {
     });
 }
 );
+*/
+
+app.get('/locations', (req, res) => {
+  const myLocations = Locations.findAllVenueNames();
+  res.status(200).json(myLocations);
+});
 
 app.get('/playlists/:playlist', (req, res) => {
   const playlist = req.params.playlist;

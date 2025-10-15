@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mantine/core';
+import { SERVER_BASE } from '../api/urls';
 
 /*
 interface UploadSongsProps {
@@ -39,7 +40,7 @@ const UploadSongs: React.FC<{}> = () => {
                 console.log(`${key}:`, value);
             }
 
-            fetch('http://localhost:3000/upload', {
+            fetch(SERVER_BASE + '/upload', {
                 method: 'POST',
                 body: formData, 
             })

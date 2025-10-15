@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { SERVER_BASE } from '../api/urls';
+
 const AddLocation: React.FC = () => {
     const [location, setLocation] = useState('');
 
@@ -9,7 +11,7 @@ const AddLocation: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('/api/addLocation', {
+            const response = await fetch(SERVER_BASE + '/api/addLocation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

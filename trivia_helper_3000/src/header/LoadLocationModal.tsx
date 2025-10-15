@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, List } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { SERVER_BASE } from '../api/urls';
 
 
 interface LoadLocationProps {
@@ -14,7 +15,7 @@ const LoadLocation: React.FC<LoadLocationProps> = ({ onClose }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:3000/locations')
+        fetch(SERVER_BASE + '/locations')
             .then(response => response.json())
             .then(data => {
                 setLocations(data);
