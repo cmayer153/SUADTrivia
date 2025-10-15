@@ -12,7 +12,7 @@ const SetPlaylists: React.FC = () => {
 
 
     useEffect(() => {
-        axios.get(SERVER_BASE + '/playlists')
+        axios.get(SERVER_BASE + '/api/songs/playlists/unique')
             .then(response => {
                 console.log('Playlists:', response.data);
                 setPlaylistData(response.data);
@@ -20,7 +20,7 @@ const SetPlaylists: React.FC = () => {
             .catch(error => {
                 console.error('Error fetching playlists:', error);
             });
-        axios.get(SERVER_BASE + '/locations')
+        axios.get(SERVER_BASE + '/api/locations/venuenames')
             .then(response => {
                 console.log('Locations:', response.data);
                 setLocationData(response.data);

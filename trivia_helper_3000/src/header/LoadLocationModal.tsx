@@ -15,7 +15,7 @@ const LoadLocation: React.FC<LoadLocationProps> = ({ onClose }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(SERVER_BASE + '/locations')
+        fetch(SERVER_BASE + '/api/locations/venuenames')
             .then(response => response.json())
             .then(data => {
                 setLocations(data);

@@ -35,6 +35,11 @@ class SongModel {
     return stmt.all();
   }
 
+  findAllPlaylists() {
+    const stmt = this.db.prepare('SELECT DISTINCT playlist FROM songs');
+    return stmt.all();
+  }
+
   findById(id) {
     const stmt = this.db.prepare('SELECT * FROM songs WHERE id = ?');
     return stmt.get(id);

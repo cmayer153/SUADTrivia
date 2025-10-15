@@ -55,3 +55,6 @@ npm run dev for vite dev server
 
 *NOTES*
   Do we need to save playlist state in local storage in case of a browser crash or accidental close out?
+
+  When I am finished with the SQLite refactor, all endpoints should use the /api/...
+  convention. This is how I will know I've completed the changes. Then I need to test, of course.

@@ -22,6 +22,9 @@ require('dotenv').config();
 
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.json());
+
+app.use('/api/locations', require('./routes/locations.cjs'));
+app.use('/api/songs', require('./routes/songs.cjs'));
   
   //FOR TESTING
   app.use(cors());
@@ -149,25 +152,6 @@ app.get('/playlists', (req, res) => {
  
 });
 
-/*
-app.get('/locations', (req, res) => {
-  Location.find({}, {locationName: 1, _id: 0})
-    .then(locations => {
-      locationNames = locations.map(location => location.locationName);
-      res.status(200).json(locationNames);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: 'Error fetching locations.' });
-    });
-}
-);
-*/
-
-app.get('/locations', (req, res) => {
-  const myLocations = Locations.findAllVenueNames();
-  res.status(200).json(myLocations);
-});
 
 app.get('/playlists/:playlist', (req, res) => {
   const playlist = req.params.playlist;
