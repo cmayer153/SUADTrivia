@@ -11,7 +11,7 @@ const AddLocation: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch(SERVER_BASE + '/api/addLocation', {
+            const response = await fetch(SERVER_BASE + '/api/locations/addLocation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

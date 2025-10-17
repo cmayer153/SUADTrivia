@@ -1,5 +1,6 @@
 import React from 'react';
 import { Paper, Group, Text, Stack } from '@mantine/core';
+import ReactPlayer from 'react-player/file';
 
 const ContentSection = () => {
   return (
@@ -7,13 +8,9 @@ const ContentSection = () => {
       <Paper shadow="sm" p="md" withBorder>
         <Stack spacing="sm">
           <Text weight={500} size="lg">
-            Left Container
+            Now Playing
           </Text>
-          <Text size="sm" color="dimmed">
-            This is the left content container. You can add any content here 
-            such as forms, charts, tables, or other components.
-          </Text>
-          {/* Add your left container content here */}
+
           <div style={{ 
             height: '200px', 
             backgroundColor: '#f8f9fa', 
@@ -23,9 +20,7 @@ const ContentSection = () => {
             justifyContent: 'center',
             borderRadius: '4px'
           }}>
-            <Text color="dimmed" size="sm">
-              Left Content Area
-            </Text>
+            <ReactPlayer url={"https://trivia.sfo3.cdn.digitaloceanspaces.com/Tycho%20-%20Awake%20-%2002%20Montana.mp3"} controls={true} />
           </div>
         </Stack>
       </Paper>
@@ -33,7 +28,7 @@ const ContentSection = () => {
       <Paper shadow="sm" p="md" withBorder>
         <Stack spacing="sm">
           <Text weight={500} size="lg">
-            Right Container
+            Up Next
           </Text>
           <Text size="sm" color="dimmed">
             This is the right content container. You can add any content here 

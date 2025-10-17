@@ -7,7 +7,7 @@ import LoadLocation from './LoadLocationModal';
 import classes from './HeaderMenu.module.css';
 
 
-import logo from "/src/assets/Designer.jpeg";
+import logo from "/src/assets/TrackAttackMusicBingo.png";
 
 /*
 interface Props {

@@ -36,20 +36,6 @@ const s3 = new aws.S3({
   endpoint: spacesEndpoint
 });
 
-app.post('/api/addLocation', (req, res) => {
-  const location = req.body;
-  Locations.insert({venueName: location.location, 
-    playlist1: "demo",
-    playlist2: "demo",
-    playlist3: "demo",
-    playlist4: "demo",
-    playlist5: "demo",
-    playlist6: "demo"});
-  res.status(200).send('Location added successfully.');
-  //TODO error checking
-  //.catch(err => res.status(500).send('Error adding location.'));
-
-} );
 
 const upload = multer({
   storage: multerS3({
@@ -126,32 +112,6 @@ app.get('*', (req, res) => {
 */
 
 
-app.get('/playlists', (req, res) => {
-  Song.aggregate([
-    {
-      $group: {
-        _id: "$playlist"
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-        playlist: "$_id"
-      }
-    }
-  ])
-  .then(playlists => {
-    playlistNames = playlists.map(playlist => playlist.playlist);
-    res.status(200).json(playlistNames);
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({ message: 'Error fetching unique playlists.' });
-  });
-  
- 
-});
-
 
 app.get('/playlists/:playlist', (req, res) => {
   const playlist = req.params.playlist;
@@ -170,22 +130,6 @@ app.get('/playlistsbylocation/:location' (req, res) => {
   const location = req.params.location;
 */
 
-
-app.get('/playlistbylocation/:location', (req, res) => {
-  const location = req.params.location;
-  Location.find({ locationName: { $regex : new RegExp(location, "i") } })
-    .then(loc => {
-      const playlist = loc[0].nextPlaylistName;
-      Song.find({ playlist: playlist })
-        .then(songs => {
-          res.status(200).json(songs);
-        })
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: 'Error fetching songs for location.' });
-    });
-});
 
 app.post('/api/set-playlist', (req, res) => {
   const location = req.body.location;
@@ -238,16 +182,6 @@ app.get('/api/playlists/:name', async (req, res) => {
   }
 });
 
-app.get('/api/history', async (req, res) => {
-  try {
-    const limit = Math.min(parseInt(req.query.limit || '50', 10), 200);
-    const rows = await Song.find({}).sort({ _id: -1 }).limit(limit);
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Failed to fetch history');
-  }
-});
 
 // SPA fallback for non-API routes
 app.get(/^(?!\/api).*/, (req, res) => {

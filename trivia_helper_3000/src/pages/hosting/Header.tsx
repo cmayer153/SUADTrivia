@@ -1,14 +1,17 @@
 import React from 'react';
 import { Paper, Text, Group, Image, Box } from '@mantine/core';
 
-const Header = () => {
+interface HeaderProps {
+  location?: string;
+}
+const Header: React.FC<HeaderProps> = ({ location }) => {
   return (
     <Paper shadow="sm" p="md" withBorder>
       <Group justify="space-between" align="center">
         {/* Left Logo */}
         <Box>
           <Image
-            src="/src/assets/Designer.jpeg"
+            src="/src/assets/TrackAttackMusicBingo.png"
             alt="Left Logo"
             height={40}
             width="auto"
@@ -19,17 +22,14 @@ const Header = () => {
         {/* Center Text */}
         <Box style={{ textAlign: 'center' }}>
           <Text weight={500} size="lg">
-            Your Application Title
-          </Text>
-          <Text size="sm" color="dimmed">
-            Subtitle or tagline here
+            Welcome to {location ? `${location}` : 'Trivia Helper 3000'}
           </Text>
         </Box>
 
         {/* Right Logo */}
         <Box>
           <Image
-            src="/src/assets/Designer.jpeg"
+            src="/src/assets/TrackAttackMusicBingo.png"
             alt="Right Logo"
             height={40}
             width="auto"

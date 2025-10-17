@@ -21,7 +21,7 @@ function App() {
             <HeaderMenu />
             <Routes>
               <Route path="/admin" element={<AdminContainer />}/>
-              <Route path="/location/:location" element={<HostContainer />}/>
+              <Route path="/location/:location" element={<MainPage />}/>
               <Route path="/main" element={<MainPage />}/>
               <Route path="/playlist/:playlistName" element={<HostContainer />}/>
             </Routes>

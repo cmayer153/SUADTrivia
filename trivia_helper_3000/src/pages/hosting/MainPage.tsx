@@ -6,10 +6,12 @@ import ContentSection from './ContentSection';
 import ListSection from './ListSection';
 
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const MainPage = () => {
   let { location } = useParams();
+
+  let [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
     fetchPlaylistsByLocation(location);
@@ -17,11 +19,11 @@ const MainPage = () => {
 
   const fetchPlaylistsByLocation = (location: string | undefined) => {
     if (!location) return;
-    fetch('http://localhost:3000/playlistsbylocation/' + location)
+    fetch('http://localhost:3000/api/locations/playlistsbylocation/' + location)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched playlists:', data);
-        // Handle the fetched data as needed
+        setPlaylists(data);
       })
       .catch(error => {
         console.error('Error fetching playlists:', error);
@@ -30,8 +32,9 @@ const MainPage = () => {
 
   return (
     <Stack gap="lg" p="md">
-      <Header />
-      <ButtonRow />
+      {/* Pass the location prop to Header */}
+      <Header location={location} />
+      <ButtonRow playlists={playlists} />
       <ContentSection />
       <ListSection />
     </Stack>

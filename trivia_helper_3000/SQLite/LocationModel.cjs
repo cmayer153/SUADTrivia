@@ -52,7 +52,7 @@ class LocationModel {
   }
 
   findByVenueName(venueName) {
-    const stmt = this.db.prepare('SELECT * FROM locations WHERE venueName = ?');
+    const stmt = this.db.prepare('SELECT playlist1, playlist2, playlist3, playlist4, playlist5, playlist6 FROM locations WHERE venueName = ?');
     return stmt.get(venueName);
   }
 
