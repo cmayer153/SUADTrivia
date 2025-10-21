@@ -43,5 +43,10 @@ router.get('/playlistsbylocation/:location', (req, res) => {
   res.json(songs);
 });
 
+router.get('/songsbyplaylist/:playlist', (req, res) => {
+  const playlist = req.params.playlist;
+  const songs = Songs.findByPlaylist(playlist);    
+  res.json(songs);
+});
 
 module.exports = router;

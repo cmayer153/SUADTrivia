@@ -26,10 +26,7 @@ const ListSection = () => {
     <Paper shadow="sm" p="md" withBorder>
       <Stack gap="md">
         <Text weight={500} size="lg">
-          List Section
-        </Text>
-        <Text size="sm" color="dimmed">
-          This section contains a list of containers. Each container can hold different types of content.
+          Play History
         </Text>
         
         <SimpleGrid 

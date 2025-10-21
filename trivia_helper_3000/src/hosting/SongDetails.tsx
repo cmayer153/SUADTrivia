@@ -1,5 +1,6 @@
 export default interface SongDetails {
     url: string;
-    songTitle: string;
+    //TODO changed from songTitle to title, might break stuff
+    title: string;
     artist: string;
 }

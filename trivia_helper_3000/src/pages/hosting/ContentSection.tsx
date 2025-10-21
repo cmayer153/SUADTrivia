@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Paper, Group, Text, Stack } from '@mantine/core';
-import ReactPlayer from 'react-player/file';
+//import ReactPlayer from 'react-player/file';
+import ReactAudioPlayer from 'react-audio-player';
 
-const ContentSection = () => {
+import SongDetails from '../../hosting/SongDetails';
+
+interface ContentSectionProps {
+  playlist: SongDetails[];
+}
+
+const ContentSection: React.FC<ContentSectionProps> = ({ playlist }) => {
+  let [currentSong, setCurrentSong] = React.useState<SongDetails | null>(null);
+  let [nextSong, setNextSong] = React.useState<SongDetails | null>(null);
+
+
+  useEffect(() => {
+    if (playlist) {
+      configureAudioPlayer();
+    }
+  }, [playlist]);
+
+  const configureAudioPlayer = () => {
+    if (playlist.length > 0) {
+      setCurrentSong(playlist[0]);
+      console.log("Current Song set to: ", currentSong);
+      if (playlist.length > 1) {
+        setNextSong(playlist[1]);
+      } else {
+        setNextSong(null);
+      }
+    } else {
+      setCurrentSong(null);
+      setNextSong(null);
+    }
+  };
+
   return (
     <Group grow spacing="md" align="stretch">
       <Paper shadow="sm" p="md" withBorder>
@@ -20,7 +52,7 @@ const ContentSection = () => {
             justifyContent: 'center',
             borderRadius: '4px'
           }}>
-            <ReactPlayer url={"https://trivia.sfo3.cdn.digitaloceanspaces.com/Tycho%20-%20Awake%20-%2002%20Montana.mp3"} controls={true} />
+            <ReactAudioPlayer src={currentSong ? currentSong.url : ""} controls={true} />
           </div>
         </Stack>
       </Paper>

@@ -6,11 +6,13 @@ interface ButtonRowProps {
   playlists: { playlist1: string, playlist2: string, playlist3: string,
                playlist4: string, playlist5: string,
                playlist6: string };
+  loadPlaylist: (playlist: string | undefined) => void;
 }
-const ButtonRow: React.FC<ButtonRowProps> = ({ playlists }) => {
+const ButtonRow: React.FC<ButtonRowProps> = ({ playlists, loadPlaylist }) => {
+
   const handleButtonClick = (buttonName: string) => {
     console.log(`${buttonName} clicked`);
-    // Add your button logic here
+    loadPlaylist(buttonName);
   };
 
   return (
@@ -18,7 +20,7 @@ const ButtonRow: React.FC<ButtonRowProps> = ({ playlists }) => {
       <Group justify="space-between">
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Primary')}
+          onClick={() => handleButtonClick(playlists.playlist1)}
         >
             {playlists.playlist1}
         </Button>
@@ -39,15 +41,14 @@ const ButtonRow: React.FC<ButtonRowProps> = ({ playlists }) => {
           onClick={() => handleButtonClick('Light')}
         >
           {playlists.playlist4}
-          Light Action
         </Button>
-                <Button 
+        <Button 
           variant="filled" 
           onClick={() => handleButtonClick('Primary')}
         >
             {playlists.playlist5}
         </Button>
-                <Button 
+        <Button 
           variant="filled" 
           onClick={() => handleButtonClick('Primary')}
         >

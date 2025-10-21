@@ -53,7 +53,7 @@ class SongModel {
   }
 
   findByPlaylist(playlist) {
-    const stmt = this.db.prepare('SELECT * FROM songs WHERE playlist = ?');
+    const stmt = this.db.prepare('SELECT title, artist, url FROM songs WHERE playlist = ?');
     return stmt.all(playlist);
   }
 
