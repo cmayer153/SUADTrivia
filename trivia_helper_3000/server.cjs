@@ -53,26 +53,16 @@ const upload = multer({
     const content = req.files;
 
     const parseFileName = (fileName) => {
-      /*  Old Parsing, not in line with new file naming convention
-      const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
-      const parts = fileNameWithoutExtension.split('__');
-      return {
-        songTitle: parts[0],
-        artist: parts[1] || 'Unknown Artist'
-      };
-      */
-
       const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
       let tempSplit = fileNameWithoutExtension.split('_');
       const playlist = tempSplit[0];
-      tempSplit = tempSplit[1].split('-');
-      const trackNumber = tempSplit[0];
-      const songTitle = tempSplit[1];
+      const artist = tempSplit[1];
+      const songTitle = tempSplit[2];
 
       return {
         playlist: playlist,
-        trackNumber: trackNumber,
-        songTitle: songTitle
+        songTitle: songTitle,
+        artist: artist
       };
 
     };
@@ -83,9 +73,7 @@ const upload = multer({
       return {
         url: "https://trivia.sfo3.digitaloceanspaces.com/" + encodeURIComponent(file.originalname),
         title: parsed.songTitle,
-        //artist: parsed.artist,
-        artist: 'Unknown Artist',
-        //playlist: playlist.playlist[0] || 'Unknown Playlist'
+        artist: parsed.artist,
         playlist: parsed.playlist
       };
     });
@@ -96,21 +84,16 @@ const upload = multer({
     //  return res.status(400).send('No file uploaded.');
     //}
 
-    Songs.insert(newSong)
-      .then(() => console.log('Files saved to MongoDB'))
-      .catch(err => console.log(err));
+
+    //newsong is an array, so need to insert each one
+
+    Songs.insert(newSong);
+
+    //TODO error checking
       
-    //res.status(200).send('File uploaded successfully.');
+    res.status(200).send('Files uploaded successfully.');
 
   });
-
-  //Fallback to index.html for SPA (Single Page Application)
-  /*
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist'));
-});
-*/
-
 
 
 app.get('/playlists/:playlist', (req, res) => {
@@ -182,6 +165,13 @@ app.get('/api/playlists/:name', async (req, res) => {
   }
 });
 
+
+  //Fallback to index.html for SPA (Single Page Application)
+  /*
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist'));
+});
+*/
 
 // SPA fallback for non-API routes
 app.get(/^(?!\/api).*/, (req, res) => {

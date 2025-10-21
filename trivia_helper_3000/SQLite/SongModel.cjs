@@ -2,7 +2,7 @@ const Database = require('better-sqlite3');
 
 class SongModel {
     //TODO switch this to a dynamic db string
-  constructor(dbPath = './test_database_0.db') {
+  constructor(dbPath = '/Users/chrismayer/Repos/SUADTrivia/trivia_helper_3000/test_database_0.db') {
     this.db = new Database(dbPath);
     this.createTable();
   }
@@ -21,13 +21,20 @@ class SongModel {
     `);
   }
 
+
   insert(song) {
-    const stmt = this.db.prepare(`
-      INSERT INTO songs (title, artist, url, playlist)
-      VALUES (@title, @artist, @url, @playlist)
-    `);
-    const result = stmt.run(song);
-    return result.lastInsertRowid;
+    if (Array.isArray(song)) {
+        let lastId;
+        for (const s of song) {
+            lastId = this.db.prepare(`
+                INSERT INTO songs (title, artist, url, playlist)
+                VALUES (@title, @artist, @url, @playlist)
+            `).run(s).lastInsertRowid;
+            //TODO error checking
+        }
+        return lastId;
+    }
+  
   }
 
   findAll() {

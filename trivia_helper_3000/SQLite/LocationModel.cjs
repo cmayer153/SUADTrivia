@@ -1,7 +1,7 @@
 const Database = require('better-sqlite3');
 
 class LocationModel {
-  constructor(dbPath = './test_database_0.db') {
+  constructor(dbPath = '/Users/chrismayer/Repos/SUADTrivia/trivia_helper_3000/test_database_0.db') {
     this.db = new Database(dbPath);
     this.createTable();
   }
