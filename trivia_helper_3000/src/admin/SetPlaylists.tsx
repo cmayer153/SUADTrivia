@@ -20,7 +20,8 @@ const SetPlaylists: React.FC = () => {
         axios.get(SERVER_BASE + '/api/songs/playlists/unique')
             .then(response => {
                 console.log('Playlists:', response.data);
-                setPlaylistData(response.data);
+                const playlistNames = response.data.map((playlist: {playlist: string}) => playlist.playlist);
+                setPlaylistData(playlistNames);
             })
             .catch(error => {
                 console.error('Error fetching playlists:', error);
@@ -40,7 +41,7 @@ const SetPlaylists: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(SERVER_BASE + '/api/set-playlist', { 
+            const response = await axios.post(SERVER_BASE + '/api/locations/setplaylistsforlocation', { 
                 playlist1,
                 playlist2,
                 playlist3,
@@ -59,7 +60,7 @@ const SetPlaylists: React.FC = () => {
         <Container>
             <Stack gap="md">
                 <NativeSelect
-                data={locationData}
+                data={['', ...locationData]}
                 label="Select Location"
                 value={location}
                 onChange={(event) => setLocation(event.currentTarget.value)}

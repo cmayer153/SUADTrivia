@@ -56,13 +56,29 @@ class LocationModel {
     return stmt.get(venueName);
   }
 
-  update(id, location) {
-    const fields = Object.keys(location).map(key => `${key} = @${key}`).join(', ');
+  updatePlaylistsByVenueName(venueName, playlists) {
     const stmt = this.db.prepare(`
-      UPDATE locations SET ${fields}, updatedAt = CURRENT_TIMESTAMP WHERE id = @id
+        UPDATE locations
+        SET
+            playlist1 = @playlist1,
+            playlist2 = @playlist2,
+            playlist3 = @playlist3,
+            playlist4 = @playlist4,
+            playlist5 = @playlist5,
+            playlist6 = @playlist6,
+            updatedAt = CURRENT_TIMESTAMP
+        WHERE venueName = @venueName
     `);
-    stmt.run({ ...location, id });
-  }
+    stmt.run({
+        venueName,
+        playlist1: playlists.playlist1,
+        playlist2: playlists.playlist2,
+        playlist3: playlists.playlist3,
+        playlist4: playlists.playlist4,
+        playlist5: playlists.playlist5,
+        playlist6: playlists.playlist6
+    });
+}
 
   delete(id) {
     const stmt = this.db.prepare('DELETE FROM locations WHERE id = ?');

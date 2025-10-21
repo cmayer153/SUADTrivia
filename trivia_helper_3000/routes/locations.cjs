@@ -37,4 +37,19 @@ router.get('/playlistsbylocation/:location', (req, res) => {
   res.json(playlists);
 });
 
+router.post('/setplaylistsforlocation', (req, res) => {
+    const { location, playlist1, playlist2, playlist3, playlist4, playlist5, playlist6 } = req.body;
+    Locations.updatePlaylistsByVenueName(location, {
+        playlist1,
+        playlist2,
+        playlist3,
+        playlist4,
+        playlist5,
+        playlist6
+    });
+    res.status(200).send('Playlists updated successfully.');
+    //TODO error checking
+    //.catch(err => res.status(500).send('Error updating playlists.'));
+} );
+
 module.exports = router;

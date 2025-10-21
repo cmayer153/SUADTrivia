@@ -84,9 +84,7 @@ const upload = multer({
     //  return res.status(400).send('No file uploaded.');
     //}
 
-
-    //newsong is an array, so need to insert each one
-
+    //newSong is an array
     Songs.insert(newSong);
 
     //TODO error checking
@@ -108,24 +106,6 @@ app.get('/playlists/:playlist', (req, res) => {
     });
 });
 
-/*
-app.get('/playlistsbylocation/:location' (req, res) => {
-  const location = req.params.location;
-*/
-
-
-app.post('/api/set-playlist', (req, res) => {
-  const location = req.body.location;
-  const playlist = req.body.playlist;
-  Location.findOneAndUpdate
-  (
-    { locationName: location },
-    { nextPlaylistName: playlist }
-  )
-  .then(() => res.status(200).send('Playlist set successfully.'))
-  .catch(err => res.status(500).send('Error setting playlist.'));
-}
-);
 
 app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
