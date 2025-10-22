@@ -15,6 +15,7 @@ const MainPage = () => {
 
   let [playlists, setPlaylists] = useState([]);
   let [currentPlaylist, setCurrentPlaylist] = useState<SongDetails[]>([]);
+  let [playHistory, setPlayHistory] = useState<SongDetails[]>([]);
 
   useEffect(() => {
     fetchPlaylistsByLocation(location);
@@ -47,12 +48,19 @@ const MainPage = () => {
       });
   };
 
+  const updateHistory = (lastPlayed: SongDetails | null) => {
+    if (!lastPlayed) return;
+
+    setPlayHistory([...playHistory, lastPlayed]);
+    console.log("Play History updated: ", playHistory);
+  };
+
   return (
     <Stack gap="lg" p="md">
       {/* Pass the location prop to Header */}
       <Header location={location} />
       <ButtonRow playlists={playlists} loadPlaylist={fetchSongsByPlaylist} />
-      <ContentSection playlist={currentPlaylist} />
+      <ContentSection playlist={currentPlaylist} updateHistory={updateHistory} />
       <ListSection />
     </Stack>
   );

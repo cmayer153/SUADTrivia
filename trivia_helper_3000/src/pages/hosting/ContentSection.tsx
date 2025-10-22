@@ -3,29 +3,36 @@ import { Paper, Group, Text, Stack } from '@mantine/core';
 //import ReactPlayer from 'react-player/file';
 import ReactAudioPlayer from 'react-audio-player';
 
+import SongBox from '../../hosting/SongBox';
 import SongDetails from '../../hosting/SongDetails';
 
 interface ContentSectionProps {
+  updateHistory: (lastPlayed: SongDetails | null) => void;
   playlist: SongDetails[];
 }
 
-const ContentSection: React.FC<ContentSectionProps> = ({ playlist }) => {
+const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory }) => {
   let [currentSong, setCurrentSong] = React.useState<SongDetails | null>(null);
   let [nextSong, setNextSong] = React.useState<SongDetails | null>(null);
+  let [numberOfSongsPlayed, setNumberOfSongsPlayed] = React.useState<number>(0);
 
 
   useEffect(() => {
     if (playlist) {
       configureAudioPlayer();
     }
-  }, [playlist]);
+  }, [playlist, numberOfSongsPlayed]);
+
+  //To add a shuffle, I will need to modify either useEffect of configureAudioPlayer
+  //to make sure I don't change the song that is already playing.
 
   const configureAudioPlayer = () => {
     if (playlist.length > 0) {
-      setCurrentSong(playlist[0]);
+      let tempSong = playlist.shift();
+      setCurrentSong(tempSong ? tempSong : null);
       console.log("Current Song set to: ", currentSong);
-      if (playlist.length > 1) {
-        setNextSong(playlist[1]);
+      if (playlist.length > 0) {
+        setNextSong(playlist[0]);
       } else {
         setNextSong(null);
       }
@@ -33,6 +40,11 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist }) => {
       setCurrentSong(null);
       setNextSong(null);
     }
+  };
+
+  const handleSongEnd = () => {
+    updateHistory(currentSong);
+    setNumberOfSongsPlayed(numberOfSongsPlayed + 1);
   };
 
   return (
@@ -43,16 +55,9 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist }) => {
             Now Playing
           </Text>
 
-          <div style={{ 
-            height: '200px', 
-            backgroundColor: '#f8f9fa', 
-            border: '2px dashed #dee2e6',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px'
-          }}>
-            <ReactAudioPlayer src={currentSong ? currentSong.url : ""} controls={true} />
+          <div>
+            <SongBox {...(currentSong ? currentSong : { title: "No song playing", artist: "", url: "" })} />
+            <ReactAudioPlayer src={currentSong ? currentSong.url : ""} controls={true} onEnded={handleSongEnd} autoPlay={true} />
           </div>
         </Stack>
       </Paper>
@@ -62,23 +67,10 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist }) => {
           <Text weight={500} size="lg">
             Up Next
           </Text>
-          <Text size="sm" color="dimmed">
-            This is the right content container. You can add any content here 
-            such as widgets, statistics, or other components.
-          </Text>
+          
           {/* Add your right container content here */}
-          <div style={{ 
-            height: '200px', 
-            backgroundColor: '#f8f9fa', 
-            border: '2px dashed #dee2e6',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px'
-          }}>
-            <Text color="dimmed" size="sm">
-              Right Content Area
-            </Text>
+          <div>
+            <SongBox {...(nextSong ? nextSong : { title: "No song queued", artist: "", url: "" })} />
           </div>
         </Stack>
       </Paper>
