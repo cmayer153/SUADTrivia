@@ -26,31 +26,31 @@ const ButtonRow: React.FC<ButtonRowProps> = ({ playlists, loadPlaylist }) => {
         </Button>
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Secondary')}
+          onClick={() => handleButtonClick(playlists.playlist2)}
         >
           {playlists.playlist2}
         </Button>
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Tertiary')}
+          onClick={() => handleButtonClick(playlists.playlist3)}
         >
           {playlists.playlist3}
         </Button>
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Light')}
+          onClick={() => handleButtonClick(playlists.playlist4)}
         >
           {playlists.playlist4}
         </Button>
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Primary')}
+          onClick={() => handleButtonClick(playlists.playlist5)}
         >
             {playlists.playlist5}
         </Button>
         <Button 
           variant="filled" 
-          onClick={() => handleButtonClick('Primary')}
+          onClick={() => handleButtonClick(playlists.playlist6)}
         >
             {playlists.playlist6}
         </Button>

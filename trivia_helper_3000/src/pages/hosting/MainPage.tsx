@@ -5,7 +5,7 @@ import ButtonRow from './ButtonRow';
 import ContentSection from './ContentSection';
 import ListSection from './ListSection';
 import SongDetails from '../../hosting/SongDetails';
-import SongBox from '../../hosting/SongBox';
+
 
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 const MainPage = () => {
   let { location } = useParams();
 
-  let [playlists, setPlaylists] = useState([]);
+  let [playlists, setPlaylists] = useState({} as {playlist1: string, playlist2: string, playlist3: string, playlist4: string, playlist5: string, playlist6: string});
   let [currentPlaylist, setCurrentPlaylist] = useState<SongDetails[]>([]);
   let [playHistory, setPlayHistory] = useState<SongDetails[]>([]);
 
@@ -41,6 +41,7 @@ const MainPage = () => {
       .then(data => {
         console.log('Fetched songs:', data);
         setCurrentPlaylist(data);
+        setPlayHistory([]); // Reset play history when loading a new playlist
         console.log("Current Playlist set to: ", currentPlaylist);
       })
       .catch(error => {
@@ -61,7 +62,7 @@ const MainPage = () => {
       <Header location={location} />
       <ButtonRow playlists={playlists} loadPlaylist={fetchSongsByPlaylist} />
       <ContentSection playlist={currentPlaylist} updateHistory={updateHistory} />
-      <ListSection />
+      <ListSection playHistory={playHistory} />
     </Stack>
   );
 };

@@ -47,7 +47,7 @@ const upload = multer({
       cb(null, file.originalname);
     }
   })
-}).array('songs', 5);
+}).array('songs');
   
   app.post('/upload', upload, (req, res) => {
     const content = req.files;

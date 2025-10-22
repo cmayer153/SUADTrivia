@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ location }) => {
 
         {/* Center Text */}
         <Box style={{ textAlign: 'center' }}>
-          <Text weight={500} size="lg">
+          <Text fw={500} size="lg">
             Welcome to {location ? `${location}` : 'Trivia Helper 3000'}
           </Text>
         </Box>

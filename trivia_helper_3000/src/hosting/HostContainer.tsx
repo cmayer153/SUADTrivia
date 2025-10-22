@@ -11,7 +11,7 @@ import { SERVER_BASE } from '../api/urls';
 export function HostContainer() {
     let { location, playlistName } = useParams();
     const [currentSong, setCurrentSong] = useState<SongDetails>({
-        songTitle: "Tupelo Honey",
+        title: "Tupelo Honey",
         artist: "Van Morrison",
         url: "https://trivia.sfo3.cdn.digitaloceanspaces.com/13%20-%20Tupelo%20Honey.mp3"
     });
@@ -33,7 +33,7 @@ export function HostContainer() {
 
     const fetchSongsinPlaylist = () => {
         if (!playlistName) {
-          fetch('http://localhost:3000/playlistbylocation/' + location)
+          fetch(SERVER_BASE + '/playlistbylocation/' + location)
           .then(response => response.json())
           .then(data => {
             setCurrentSong(data.shift());

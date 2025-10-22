@@ -1,60 +1,32 @@
 import React from 'react';
-import { Paper, Stack, Text, Group, Badge, SimpleGrid } from '@mantine/core';
+import { Paper, Stack, Text, SimpleGrid } from '@mantine/core';
+import SongDetails from '../../hosting/SongDetails';
+import SongBox from '../../hosting/SongBox';
 
-const ListSection = () => {
-  // Sample data - replace with your actual data
-  const listItems = [
-    { id: 1, title: 'Item One', status: 'Active', description: 'Description for item one' },
-    { id: 2, title: 'Item Two', status: 'Pending', description: 'Description for item two' },
-    { id: 3, title: 'Item Three', status: 'Completed', description: 'Description for item three' },
-    { id: 4, title: 'Item Four', status: 'Active', description: 'Description for item four' },
-    { id: 5, title: 'Item Five', status: 'Inactive', description: 'Description for item five' },
-    { id: 6, title: 'Item Six', status: 'Pending', description: 'Description for item six' },
-  ];
+interface ListSectionProps {
+  playHistory: SongDetails[]; 
+}
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Active': return 'green';
-      case 'Pending': return 'yellow';
-      case 'Completed': return 'blue';
-      case 'Inactive': return 'gray';
-      default: return 'gray';
-    }
-  };
+const ListSection: React.FC<ListSectionProps> = ({ playHistory }) => {
+ 
+  
 
   return (
     <Paper shadow="sm" p="md" withBorder>
       <Stack gap="md">
-        <Text weight={500} size="lg">
+        <Text fw={500} size="lg">
           Play History
         </Text>
         
         <SimpleGrid 
           cols={3} 
           spacing="md"
-          breakpoints={[
-            { maxWidth: 'md', cols: 2 },
-            { maxWidth: 'sm', cols: 1 }
-          ]}
         >
-          {listItems.map((item) => (
-            <Paper key={item.id} shadow="xs" p="sm" withBorder>
+          {playHistory.map((item) => (
+            <Paper key={item.title} shadow="xs" p="sm" withBorder>
               <Stack gap="xs">
-                <Group align="flex-start">
-                  <Text weight={500} size="sm">
-                    {item.title}
-                  </Text>
-                  <Badge 
-                    color={getStatusColor(item.status)}
-                    variant="light"
-                    size="sm"
-                  >
-                    {item.status}
-                  </Badge>
-                </Group>
-                <Text size="xs" color="dimmed">
-                  {item.description}
-                </Text>
+                <SongBox {...item} />
+       
               </Stack>
             </Paper>
           ))}

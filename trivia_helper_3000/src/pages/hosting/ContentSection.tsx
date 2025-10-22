@@ -14,7 +14,7 @@ interface ContentSectionProps {
 const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory }) => {
   let [currentSong, setCurrentSong] = React.useState<SongDetails | null>(null);
   let [nextSong, setNextSong] = React.useState<SongDetails | null>(null);
-  let [numberOfSongsPlayed, setNumberOfSongsPlayed] = React.useState<number>(0);
+  let [numberOfSongsPlayed, setNumberOfSongsPlayed] = React.useState<number>(1);
 
 
   useEffect(() => {
@@ -48,11 +48,11 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory
   };
 
   return (
-    <Group grow spacing="md" align="stretch">
+    <Group grow gap="md" align="stretch">
       <Paper shadow="sm" p="md" withBorder>
-        <Stack spacing="sm">
-          <Text weight={500} size="lg">
-            Now Playing
+        <Stack gap="sm">
+          <Text fw={500} size="lg">
+            Now Playing - {numberOfSongsPlayed}
           </Text>
 
           <div>
@@ -63,8 +63,8 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory
       </Paper>
 
       <Paper shadow="sm" p="md" withBorder>
-        <Stack spacing="sm">
-          <Text weight={500} size="lg">
+        <Stack gap="sm">
+          <Text fw={500} size="lg">
             Up Next
           </Text>
           
