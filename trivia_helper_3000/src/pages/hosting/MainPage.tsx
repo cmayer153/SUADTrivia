@@ -40,6 +40,7 @@ const MainPage = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Fetched songs:', data);
+        shuffleSongs(data);
         setCurrentPlaylist(data);
         setPlayHistory([]); // Reset play history when loading a new playlist
         console.log("Current Playlist set to: ", currentPlaylist);
@@ -48,6 +49,14 @@ const MainPage = () => {
         console.error('Error fetching songs:', error);
       });
   };
+
+  const shuffleSongs = (songs: SongDetails[]) => {
+    for (let i = songs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [songs[i], songs[j]] = [songs[j], songs[i]];
+    }
+  };
+
 
   const updateHistory = (lastPlayed: SongDetails | null) => {
     if (!lastPlayed) return;

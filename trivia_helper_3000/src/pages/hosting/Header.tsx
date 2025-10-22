@@ -1,6 +1,8 @@
 import React from 'react';
 import { Paper, Text, Group, Image, Box } from '@mantine/core';
 
+import logo from "/src/assets/TrackAttackMusicBingo.png";
+
 interface HeaderProps {
   location?: string;
 }
@@ -11,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ location }) => {
         {/* Left Logo */}
         <Box>
           <Image
-            src="/src/assets/TrackAttackMusicBingo.png"
+            src={logo}
             alt="Left Logo"
             height={40}
             width="auto"
@@ -29,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ location }) => {
         {/* Right Logo */}
         <Box>
           <Image
-            src="/src/assets/TrackAttackMusicBingo.png"
+            src={logo}
             alt="Right Logo"
             height={40}
             width="auto"

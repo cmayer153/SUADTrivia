@@ -18,7 +18,8 @@ const LoadLocation: React.FC<LoadLocationProps> = ({ onClose }) => {
         fetch(SERVER_BASE + '/api/locations/venuenames')
             .then(response => response.json())
             .then(data => {
-                setLocations(data);
+                let tempLocations: string[] = data.map((loc: any) => loc.venueName);
+                setLocations(tempLocations);
             })
             .catch(error => {
                 console.error('Error fetching  locations:', error);
