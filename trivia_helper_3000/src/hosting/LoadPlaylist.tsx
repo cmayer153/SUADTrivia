@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, List } from '@mantine/core';
+import { SERVER_BASE } from '../api/urls';
 
 
 interface LoadPlaylistProps {
@@ -13,7 +14,7 @@ const LoadPlaylist: React.FC<LoadPlaylistProps> = ({ onClose, setPlaylist }) => 
     const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch('http://localhost:3000/playlists')
+        fetch(SERVER_BASE + '/api/songs/playlists/unique')
             .then(response => response.json())
             .then(data => {
                 setPlaylists(data);

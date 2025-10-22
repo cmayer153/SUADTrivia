@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mantine/core';
+import { SERVER_BASE } from '../api/urls';
 
 /*
 interface UploadSongsProps {
@@ -13,15 +14,12 @@ interface UploadSongsProps {
 //TODO is void right here?
 const UploadSongs: React.FC<{}> = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-    const [playlist, setPlaylist] = useState<string>('');
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedFiles(event.target.files);
     };
 
-    const handlePlaylistChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPlaylist(event.target.value);
-    };
 
     const handleUpload = () => {
         if (selectedFiles) {
@@ -30,7 +28,7 @@ const UploadSongs: React.FC<{}> = () => {
             const formData = new FormData();
             Array.from(selectedFiles).forEach(file => {
                 formData.append('songs', file);
-                formData.append('playlist', playlist);
+
             });
 
 
@@ -39,7 +37,7 @@ const UploadSongs: React.FC<{}> = () => {
                 console.log(`${key}:`, value);
             }
 
-            fetch('http://localhost:3000/upload', {
+            fetch(SERVER_BASE + '/upload', {
                 method: 'POST',
                 body: formData, 
             })
@@ -58,7 +56,6 @@ const UploadSongs: React.FC<{}> = () => {
             <div className="modal-content">
                 <h2>Upload Songs</h2>
                 <input type="file" multiple onChange={handleFileChange} />
-                <input type="text" placeholder="Playlist" value={playlist} onChange={handlePlaylistChange} />
                 <button onClick={handleUpload} style={{ color: 'white' }}>Upload</button>
             </div>
         </Box>
