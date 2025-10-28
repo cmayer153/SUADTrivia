@@ -5,6 +5,7 @@ import ButtonRow from './ButtonRow';
 import ContentSection from './ContentSection';
 import ListSection from './ListSection';
 import SongDetails from '../../hosting/SongDetails';
+import { SERVER_BASE } from '../../api/urls';
 
 
 import { useParams } from 'react-router-dom';
@@ -23,7 +24,7 @@ const MainPage = () => {
 
   const fetchPlaylistsByLocation = (location: string | undefined) => {
     if (!location) return;
-    fetch('http://localhost:3000/api/locations/playlistsbylocation/' + location)
+    fetch(SERVER_BASE + '/api/locations/playlistsbylocation/' + location)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched playlists:', data);
@@ -36,7 +37,7 @@ const MainPage = () => {
 
   const fetchSongsByPlaylist = (playlist: string | undefined) => {
     if (!playlist) return;
-    fetch('http://localhost:3000/api/songs/songsbyplaylist/' + playlist)
+    fetch(SERVER_BASE + '/api/songs/songsbyplaylist/' + playlist)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched songs:', data);

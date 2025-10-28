@@ -15,24 +15,33 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory
   let [currentSong, setCurrentSong] = React.useState<SongDetails | null>(null);
   let [nextSong, setNextSong] = React.useState<SongDetails | null>(null);
   let [numberOfSongsPlayed, setNumberOfSongsPlayed] = React.useState<number>(1);
+  let [myPlaylist, setMyPlaylist] = React.useState<SongDetails[]>([]);
 
 
   useEffect(() => {
-    if (playlist) {
-      configureAudioPlayer();
+    if (playlist && playlist.length > 0) {
+      let tempPlaylist = [...playlist];
+      let tempSong = tempPlaylist.shift();
+      setCurrentSong(tempSong ? tempSong : null);
+      if (tempPlaylist.length > 0) {
+        setNextSong(tempPlaylist[0]);
+      }
+      setMyPlaylist(tempPlaylist);
+      setNumberOfSongsPlayed(1);
+      
     }
-  }, [playlist, numberOfSongsPlayed]);
+  }, [playlist]);
 
   //To add a shuffle, I will need to modify either useEffect of configureAudioPlayer
   //to make sure I don't change the song that is already playing.
 
   const configureAudioPlayer = () => {
-    if (playlist.length > 0) {
-      let tempSong = playlist.shift();
+    let tempPlaylist = [...myPlaylist];
+    if (tempPlaylist.length > 0) {
+      let tempSong = tempPlaylist.shift();
       setCurrentSong(tempSong ? tempSong : null);
-      console.log("Current Song set to: ", currentSong);
-      if (playlist.length > 0) {
-        setNextSong(playlist[0]);
+      if (tempPlaylist.length > 0) {
+        setNextSong(tempPlaylist[0]);
       } else {
         setNextSong(null);
       }
@@ -40,10 +49,12 @@ const ContentSection: React.FC<ContentSectionProps> = ({ playlist, updateHistory
       setCurrentSong(null);
       setNextSong(null);
     }
+    setMyPlaylist(tempPlaylist);
   };
 
   const handleSongEnd = () => {
     updateHistory(currentSong);
+    configureAudioPlayer();
     setNumberOfSongsPlayed(numberOfSongsPlayed + 1);
   };
 

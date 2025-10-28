@@ -44,7 +44,7 @@ export function HostContainer() {
             console.error('Error fetching song list:', error);
           });
         } else {
-          fetch('http://localhost:3000/playlists/' + playlistName)
+          fetch(SERVER_BASE + '/playlists/' + playlistName)
           .then(response => response.json())
           .then(data => {
             setCurrentSong(data.shift());
