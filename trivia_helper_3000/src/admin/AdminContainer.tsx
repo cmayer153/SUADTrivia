@@ -23,7 +23,6 @@ export function AdminContainer() {
             </Tabs.Panel>
             <Tabs.Panel value="uploadSongs">
                 <UploadSongs />
-
             </Tabs.Panel>
             <Tabs.Panel value="addLocation">
                 <AddLocation />
