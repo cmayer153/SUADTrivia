@@ -1,6 +1,7 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import LoadPlaylist from './LoadPlaylistModal';
 import LoadLocation from './LoadLocationModal';
 
@@ -46,6 +47,16 @@ export function HeaderMenu() {
         </div>
         <div>
           <Button onClick={()=>openLoadPlaylistModal()} className={classes.button}>Load Playlist</Button>
+        </div>
+        <div>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <Button className={classes.button}>Sign In</Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </header>
 

@@ -3,6 +3,7 @@ import{ BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 //import { Grid } from '@mantine/core';
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 import './App.css'
 import { HeaderMenu } from './header/HeaderMenu';
 import { HostContainer } from './hosting/HostContainer';
@@ -20,7 +21,16 @@ function App() {
           <div>
             <HeaderMenu />
             <Routes>
-              <Route path="/admin" element={<AdminContainer />}/>
+              <Route path="/admin" element={
+                <>
+                  <SignedIn>
+                    <AdminContainer />
+                  </SignedIn>
+                  <SignedOut>
+                    <RedirectToSignIn />
+                  </SignedOut>
+                </>
+              }/>
               <Route path="/location/:location" element={<MainPage />}/>
               <Route path="/main" element={<MainPage />}/>
               <Route path="/playlist/:playlistName" element={<HostContainer />}/>
