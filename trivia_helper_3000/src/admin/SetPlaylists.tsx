@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NativeSelect, Button, Container, Stack } from '@mantine/core';
 import axios from 'axios';
 import { SERVER_BASE } from '../api/urls';
+import { useAuth } from '@clerk/clerk-react';
 
 const SetPlaylists: React.FC = () => {
     const [playlist1, setPlaylist1] = useState('');
@@ -14,6 +15,8 @@ const SetPlaylists: React.FC = () => {
 
     const [playlistData, setPlaylistData] = useState<string[]>([]);
     const [locationData, setLocationData] = useState<string[]>([]);
+
+    const { getToken } = useAuth();
 
 
     useEffect(() => {
@@ -41,6 +44,7 @@ const SetPlaylists: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
+            const token = await getToken();
             const response = await axios.post(SERVER_BASE + '/api/locations/setplaylistsforlocation', { 
                 playlist1,
                 playlist2,
@@ -49,6 +53,8 @@ const SetPlaylists: React.FC = () => {
                 playlist5,
                 playlist6,
                 location
+            }, {
+                headers: { Authorization: `Bearer ${token}` },
             });
             console.log('Response:', response.data);
         } catch (error) {

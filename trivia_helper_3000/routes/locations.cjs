@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const LocationModel = require('../SQLite/LocationModel.cjs');
+const requireAdmin = require('../middleware/requireAdmin.cjs');
 
 const Locations = new LocationModel();
 
@@ -16,7 +17,7 @@ router.get('/venuenames', (req, res) => {
   res.json(venueNames);
 });
 
-router.post('/addLocation', (req, res) => {
+router.post('/addLocation', requireAdmin, (req, res) => {
   const location = req.body;
   Locations.insert({venueName: location.location, 
     playlist1: "demo",
@@ -37,7 +38,7 @@ router.get('/playlistsbylocation/:location', (req, res) => {
   res.json(playlists);
 });
 
-router.post('/setplaylistsforlocation', (req, res) => {
+router.post('/setplaylistsforlocation', requireAdmin, (req, res) => {
     const { location, playlist1, playlist2, playlist3, playlist4, playlist5, playlist6 } = req.body;
     Locations.updatePlaylistsByVenueName(location, {
         playlist1,

@@ -6,6 +6,8 @@ const aws = require('aws-sdk');
 const { url } = require('inspector');
 const app = express();
 const cors = require('cors');
+const { clerkMiddleware } = require('@clerk/express');
+const requireAdmin = require('./middleware/requireAdmin.cjs');
 const port = 3000;
 const dotenv = require('dotenv');
 
@@ -23,11 +25,17 @@ require('dotenv').config();
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.json());
 
+app.use(cors());
+
+// Verifies the Clerk session token (Bearer header or cookie) and attaches
+// req.auth. Non-blocking on its own -- requireAdmin guards individual routes.
+// Scoped to the API only: on document navigations clerkMiddleware performs
+// Clerk's SSR handshake (307 to accounts.dev), which this SPA doesn't need and
+// which would bounce every public host page load through Clerk.
+app.use(['/api', '/upload'], clerkMiddleware());
+
 app.use('/api/locations', require('./routes/locations.cjs'));
 app.use('/api/songs', require('./routes/songs.cjs'));
-  
-  //FOR TESTING
-  app.use(cors());
 
   //TODO how does multer have the credentials to upload to DO?
 // Set S3 endpoint to DigitalOcean Spaces
@@ -49,7 +57,7 @@ const upload = multer({
   })
 }).array('songs');
   
-  app.post('/upload', upload, (req, res) => {
+  app.post('/upload', requireAdmin, upload, (req, res) => {
     const content = req.files;
 
     const parseFileName = (fileName) => {
@@ -107,22 +115,6 @@ app.get('/playlists/:playlist', (req, res) => {
 });
 
 
-app.post('/api/register', async (req, res) => {
-  const { username, password } = req.body;
-  // am I double hashing the password?
-  const hashed = await bcrypt.hash(password, 10);
-  try {
-    await User.create({ username, password: hashed});
-    res.status(201).json({ message: 'User created successfully' });
-  } catch (error) {
-    if (error.code === 11000) {
-      res.status(409).json({ message: 'Username already exists' });
-    } else {
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  }
-});
-
 // AFTER app.use(cors()) add read-only API routes
 app.get('/api/playlists', async (req, res) => {
   try {
@@ -156,6 +148,15 @@ app.get('*', (req, res) => {
 // SPA fallback for non-API routes
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// clerkMiddleware forwards unexpected failures (Clerk API unreachable, bad
+// handshake payload) via next(err). Without this, Express's default handler
+// renders an HTML stack trace whenever NODE_ENV !== 'production'.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(port, () => {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import { SERVER_BASE } from '../api/urls';
+import { useApi } from '../api/useApi';
 
 const AddLocation: React.FC = () => {
     const [location, setLocation] = useState('');
+    const apiFetch = useApi();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocation(e.target.value);
@@ -11,7 +12,7 @@ const AddLocation: React.FC = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch(SERVER_BASE + '/api/locations/addLocation', {
+            const response = await apiFetch('/api/locations/addLocation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

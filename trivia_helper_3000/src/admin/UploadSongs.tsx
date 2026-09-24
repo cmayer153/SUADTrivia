@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mantine/core';
-import { SERVER_BASE } from '../api/urls';
+import { useApi } from '../api/useApi';
 
 /*
 interface UploadSongsProps {
@@ -14,6 +14,7 @@ interface UploadSongsProps {
 //TODO is void right here?
 const UploadSongs: React.FC<{}> = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+    const apiFetch = useApi();
 
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,13 +38,19 @@ const UploadSongs: React.FC<{}> = () => {
                 console.log(`${key}:`, value);
             }
 
-            fetch(SERVER_BASE + '/upload', {
+            apiFetch('/upload', {
                 method: 'POST',
-                body: formData, 
+                body: formData,
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Upload successful:', data);
+                .then(async response => {
+                    // Server replies with plain text on success and JSON on
+                    // 401/403, so read text and branch on status rather than
+                    // assuming JSON.
+                    const body = await response.text();
+                    if (!response.ok) {
+                        throw new Error(`Upload failed (${response.status}): ${body}`);
+                    }
+                    console.log('Upload successful:', body);
                 })
                 .catch(error => {
                     console.error('Error uploading files:', error);
